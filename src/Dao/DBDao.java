@@ -4,7 +4,7 @@ public class DBDao {
 	private static  String DB_DRIVER = "com.mysql.cj.jdbc.Driver";
 	private static  String DB_URL = "jdbc:mysql://localhost:3306/shop?useSSL=false&serverTimezone=UTC";
 	private static String DB_USERNAME = "root";
-	private static String DB_PASSWORD = "root";
+	private static String DB_PASSWORD = "123456";
 	private static Connection conn = null;
 	//连接数据库java_scourse
 	public static Connection GetConnection() throws SQLException {
