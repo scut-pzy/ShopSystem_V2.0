@@ -4,18 +4,19 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<style type="text/css">
-body {
-}
-</style>
+<style>
+        .weizhi{
+        position:absolute;
+           right:20%;
+          top:11%;
+        }
+  </style>
+
 </head>
 <body>
-	<h1 align="center">在线购物</h1>
-		<div align="center">
 		<form  action="${ pageContext.request.contextPath}/ShowProductServlet" method=post>
-			<input type="text" style="width: 500px; height: 25px" name="des"/> 			
-			<input type="submit" value="搜索" />
+			<input type="text" style="width: 500px; height: 25px" name="des" /> 			
+			<input class="weizhi"type="submit" value="搜索"  />
 		</form>
-		</div>
 </body>
 </html>

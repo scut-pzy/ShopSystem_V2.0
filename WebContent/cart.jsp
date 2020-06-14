@@ -15,14 +15,13 @@ cartDao dao=new cartDao();
 List<String> list=new ArrayList<String>();
 List<ProductBean> cartlist=null;
 list=(List<String>)dao.findProductid(username);
-System.out.print(list);
-cartlist=(List<ProductBean>)dao.finAllCart(list);
+cartlist=(List<ProductBean>)dao.finAllCart(list,username);
 request.getSession().setAttribute("cartlist",cartlist);
-
 if(cartlist!=null){
 	i=cartlist.size();
+	}
 }
-}
+
 %>
 <!DOCTYPE html>
 <html>
@@ -37,26 +36,34 @@ if(cartlist!=null){
         <tr>
             <td>id</td>
             <td>商品名</td>
-            <td>价格</td>
+            <td>单价</td>
             <td>分类</td>
             <td>数量</td>
              <td>选项</td>
         </tr>
+
     <c:forEach items="${cartlist }" var="product">
         <tr>
             <td>${product.id}</td>
             <td>${product.name }</td>
             <td>${product.price}</td>
-            <td>${product.catelog}</td>
+            <td>${product.catelog}</td>     
             <td>${product.num}</td>
-             <td>
-                 <form action="${pageContext.request.contextPath }/buyProductServlet?id=${product.id }" method=post>
+             <td>  
+        <form action="${pageContext.request.contextPath }/buyProductServlet?id=${product.id }&&sid=${product.sid }&&num=${product.num}&&cid=${product.cartid}" method=post>
+             <c:if test="${product.statue=='wait'}">    
                  <input type="submit" name="buy" value="支付">
-                 </form>
-             </td>
-  	           
-        </tr>
-    </c:forEach>    
+             </c:if>    
+             <c:if test="${ product.statue=='off'}">    
+                 <input type="text"  value="已下架">
+             </c:if> 
+             <c:if test="${ product.statue=='buyed'}">    
+                 <input type="text"  value="已购买">
+             </c:if>    
+       </form>
+                 </td>
+     </tr>
+           </c:forEach>        
     </table>
 </body>
 </html>

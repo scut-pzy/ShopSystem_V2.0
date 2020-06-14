@@ -8,8 +8,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import Bean.*;
-import Dao.*;
+
+import Bean.UserBean;
+import Dao.cartDao;
+
 /**
  * Servlet implementation class cartServlet
  */
@@ -30,39 +32,33 @@ public class cartServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		request.setCharacterEncoding("utf-8");
-		String product_id=request.getParameter("id");
-		UserBean user=(UserBean) request.getSession().getAttribute("user");
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html;charset=UTF-8");
+		UserBean user = null;
+		user=(UserBean)request.getSession().getAttribute("user");
 		String username=user.getUsername();
+		String pnum=request.getParameter("pnum");
+		String pid=request.getParameter("pid");
+		String pname=request.getParameter("pname");
+		String pcatelog=request.getParameter("pcatelog");
 		cartDao dao=new cartDao();
-		int count=0;
+		int num=0;
 		int bool=0;
-		int id=-1;
 		try {
-			count = dao.getcount(username);
-			//count = dao.getcount("root");
-		} catch (SQLException e) {
+			num = dao.getid();
+			num++;
+			String id=num+"";
+			bool=dao.insert(id, pid, username, pnum,pname,pcatelog);
+		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			e1.printStackTrace();
 		}
-		try {
-			id = dao.getid();
-			//count = dao.getcount("root");
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if(bool==1) {
+			System.out.print("插入成功");
 		}
-		try {
-			bool=dao.insert(id,product_id,username);
-			 //bool=dao.insert(count,product_id,user.getUsername());
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		if(bool!=0) {
-			request.getSession().setAttribute("buy",true);
-		}
-		request.getRequestDispatcher("index.jsp").forward(request, response);
+		else
+			System.out.print("插入成功");
+		request.getRequestDispatcher("/index.jsp").forward(request, response);
 	}
 
 	/**

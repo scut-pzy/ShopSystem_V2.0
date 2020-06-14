@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import Bean.*;
 import Dao.*;
+import utils.IpadrUtils;
 import utils.emailutils;
 /**
  * Servlet implementation class buyProductServlet
@@ -37,6 +38,9 @@ public class buyProductServlet extends HttpServlet {
 		response.setContentType("text/html;charset=utf-8");
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 		String product_id=request.getParameter("id");
+		String saler_id=request.getParameter("sid");
+		String cart_id=request.getParameter("cid");
+		String product_num=request.getParameter("num");
 		UserBean user=(UserBean) request.getSession().getAttribute("user");
 		if(user==null) {
 			request.getRequestDispatcher("Login.jsp").forward(request, response);
@@ -51,45 +55,53 @@ public class buyProductServlet extends HttpServlet {
 			e1.printStackTrace();
 		}
         String product_name=product.getName();
-        String num=product.getNum();
+        String pcatelog=product.getCatelog();
         String price=product.getPrice();
-		buyDao dao=new buyDao();
+        String StockNum=product.getNum();//存货
+        String ShopStatue=product.getStatue();//存货
+        String SumPrice=Integer.parseInt(price)*Integer.parseInt(product_num)+"";
+		buyDao bdao=new buyDao();
 		cartDao cdao=new cartDao();
 		int count=0;
 		int bool=0;
 		try {
-			count = dao.getcount();
+			count = bdao.getcount();
+			count++;
 			//count = dao.getcount("root");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		try {
-			bool=dao.insert(count,username,product_name,price);
-			 //bool=dao.insert(count,product_id,user.getUsername());
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		if(bool!=0) {
-			try {
-				cdao.delete(product_id);
+			bool=pdao.update(product_id,StockNum,product_num,ShopStatue);
+			if(bool!=0)
+				{cdao.delete(product_id,username,cart_id);	}
+			else {
+				cdao.deleteShopCart(product_id,username);//可能购买数大于商品数，或者商品已经下架处理了
+				request.getRequestDispatcher("cart.jsp").forward(request, response);
+			}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			String mail=user.getEmail();
-			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
-	         String date=df.format(new Date());// new Date()为获取当前系统时间
+      if(bool!=0) {
+		try {
+			bool=bdao.insert(count,username,product_name,saler_id,price,product_num,SumPrice,pcatelog);
+			 //bool=dao.insert(count,product_id,user.getUsername());
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			}
+		}
+      else {
+  		request.getRequestDispatcher("cart.jsp").forward(request, response);
+  	}	
+      		String mail=user.getEmail();
+      		String date=IpadrUtils.getTime();
 			String title="订单:"+product_name+"**发货通知";
-			String message="账户:"+username+"于--"+date+"--购买的"+product_name+"(价格："+product.getPrice()+" 数量："+num+")已经发货";
+			String message="账户:"+username+"于--"+date+"--购买的"+product_name+"(价格："+product.getPrice()+" 数量："+product_num+")已经发货";
 			emailutils.sendMail(mail,message,title);
 			request.getRequestDispatcher("SuccessBuy.jsp").forward(request, response);
-		}
-		else {
-		request.getRequestDispatcher("cart.jsp").forward(request, response);
-		}
-	
 	}
 
 	/**

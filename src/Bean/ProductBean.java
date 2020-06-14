@@ -7,13 +7,27 @@ public class ProductBean {
     private String num;
     private String catelog;
     private String des;
+    private String sid;
     private String imgurl;
-    
+    private String statue;
+    private String cartid;
     public void setId(String id) {
 		this.id=id;
 	}
 	public String getId() {
 		return this.id;
+	}
+	public void setStatue(String statue) {
+		this.statue=statue;
+	}
+	public String getStatue() {
+		return this.statue;
+	}
+	public void setSid(String sid) {
+		this.sid=sid;
+	}
+	public String getSid() {
+		return this.sid;
 	}
 	public void setName(String name) {
 		this.name=name;
@@ -52,5 +66,10 @@ public class ProductBean {
 	public String getDes() {
 		return this.des;
 	}
-	
+	public void setCartid(String cartid) {
+		this.cartid=cartid;
+	}
+	public String getCartid() {
+		return this.cartid;
+	}
 }

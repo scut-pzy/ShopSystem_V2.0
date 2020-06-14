@@ -18,9 +18,8 @@
                     <div class="panel-heading">
                         <span class="glyphicon glyphicon-user"></span>登录
                     </div>
-                    <div class="panel-body">
-                    
-                        <form action="${pageContext.request.contextPath}/loginServlet"  method="post" name="LoginForm">
+                    <div class="panel-body">            
+                        <form action="${pageContext.request.contextPath}/loginServlet?type=user"  method="post" name="LoginForm">
                             <div class="form-group">
                                 <label for="username">用户名</label> 
                                 <input type="text"
@@ -36,15 +35,22 @@
                                  <input type="checkbox"
                                     class="form-control" name="autologin" >
                             </div>
-                            <div style="padding-top: 10px; margin-left: 45%;">
-                            <button type="submit" class="btn btn-primary" onclick="return checkForm()">登录</button>
+                            <div style="padding-top: 10px; margin-left: 25%;">
+                            <button type="submit" class="btn btn-primary" onclick="return checkForm()">用户登录</button>
+                             <tr></tr>
+                         <a  href="SalerLogin.jsp"><button type="button" class="btn btn-primary" >销售登录</button> </a>	
                            </div>
                         </form>
-                        <div style="padding-top: 10px; margin-left: 45%;">
+                        
+                        <div style="padding-top: 10px; margin-left: 25%;">
                         <form action="${pageContext.request.contextPath}/Register.jsp"  method="post" name="RegisterForm">
-                        <button type="submit" class="btn btn-primary" onclick="return checkForm()">注册</button>
+                        <button type="submit" class="btn btn-primary" onclick="return checkForm()">用户注册</button>
+                        <tr></tr>
+                         
                         </form>
+                        
                         </div>
+                       
                     </div>
                 </div>
             </div>

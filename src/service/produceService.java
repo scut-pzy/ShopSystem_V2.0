@@ -9,6 +9,11 @@ public class produceService {
 	List<ProductBean> list =dao.finAllProduct();
 	return list;
 	}
+	public List<ProductBean> finALLProduct(String sid) throws SQLException  {
+		ProductDao dao=new ProductDao();
+		List<ProductBean> list =dao.finAllProduct(sid);
+		return list;
+		}
 	public ProductBean findDetailProduct(String id) throws SQLException{
 		ProductDao dao=new ProductDao();
 		ProductBean product=new ProductBean();

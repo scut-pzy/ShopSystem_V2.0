@@ -4,6 +4,7 @@
 <%@ page language="java" import="Bean.*" %>
 <%@ page language="java" import="Dao.*" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<link rel="stylesheet" type="text/css" href=/ShopSystem/css/style.css> 
 <%
 List<HistoryBean> list=new ArrayList<HistoryBean>();
 UserBean user=null;
@@ -17,16 +18,18 @@ if(list!=null){
      i=list.size();
 }
 %>
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="GB18030">
+
 <title>浏览记录</title>
 </head>
 <body>
 <li>共有记录：<%=i%>条商品浏览记录</li>
 <a href="index.jsp"><button>返回主页</button></a>
-<table border="1px solid #96c2f1" background="#eff7ff" align="center">
+<table border="1px solid #96c2f1" background="#eff7ff" align="center" >
         <tr>
              <td>用户名</td>
             <td>商品名</td>

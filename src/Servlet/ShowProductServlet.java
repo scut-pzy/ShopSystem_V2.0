@@ -46,16 +46,18 @@ public class ShowProductServlet extends HttpServlet {
         if(catelog!=null) {
 			try {	
 				if(catelog.equals("1")) {catelog="手机数码";}
-				if(catelog.equals("2")) {catelog="电子产品";}
-				if(catelog.equals("3")) {catelog="衣服服饰";}
-				if(catelog.equals("4")) {catelog="穿戴设备";}
-				if(catelog.equals("5")) {catelog="生活用品";}
-				if(catelog.equals("6")) {catelog="医疗药物";}
-				if(catelog.equals("7")) {catelog="交通出行";}
+				else if(catelog.equals("2")) {catelog="电子产品";}
+				else if(catelog.equals("3")) {catelog="衣服服饰";}
+				else if(catelog.equals("4")) {catelog="穿戴设备";}
+				else if(catelog.equals("5")) {catelog="生活用品";}
+				else if(catelog.equals("6")) {catelog="医疗药物";}
+				else if(catelog.equals("7")) {catelog="交通出行";}
+				
 			    list=new prudcutshowservicce().findProduct(catelog);
-			    request.getSession().setAttribute("product", list);
+			    request.getSession().setAttribute("productlistview", list);
 				System.out.println("获取list数量:"+list.size());
 				request.getRequestDispatcher("/viewproduct.jsp").forward(request, response);	
+				
 		}
 		catch(SQLException e) {
 			e.printStackTrace();

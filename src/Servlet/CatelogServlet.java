@@ -1,11 +1,18 @@
 package Servlet;
 
 import java.io.IOException;
+import java.sql.SQLException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import Bean.SalerBean;
+import Bean.UserBean;
+import Dao.LogDao;
+import utils.IpadrUtils;
 
 /**
  * Servlet implementation class CatelogServlet
@@ -29,12 +36,32 @@ public class CatelogServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		request.setCharacterEncoding("utf-8");
 		String catelog=request.getParameter("catelog");
+		String sid=request.getParameter("sid");
+		String ipadr=IpadrUtils.getRemoteIp(request);
+		String date=IpadrUtils.getTime(); 
+		UserBean user=new UserBean();
+		SalerBean saler=new SalerBean();
+		
+		user=(UserBean)request.getSession().getAttribute("manager");
+		LogDao logdao=new LogDao();
 		try {
 		if(catelog.equals("product")) {
-			request.getRequestDispatcher("/proServlet").forward(request, response);
+			     saler=(SalerBean)request.getSession().getAttribute("user");
+				logdao.insertLogRecord(saler.getUsername(), "saler", date, ipadr, "SelectProductLog");
+			request.getRequestDispatcher("/proServlet?sid="+sid).forward(request, response);
+		}
+		if(catelog.equals("userdraw")) {
+			
+			logdao.insertLogRecord(user.getUsername(), "manager", date, ipadr, "SelectUserDraw");
+			request.getRequestDispatcher("/UserdrawServlet").forward(request, response);
 		}
 		else if (catelog.equals("user")){
 			request.getRequestDispatcher("/directory.jsp").forward(request, response);
+		}
+		else if (catelog.equals("saler")){
+				logdao.insertLogRecord(user.getUsername(), "manager", date, ipadr, "SelectSalerLog");
+			//request.getRequestDispatcher("/SalerManage.jsp").forward(request, response);
+			response.sendRedirect(request.getContextPath()+"/SalerManage.jsp");
 		}
 		else {
 			request.getRequestDispatcher("/Catelog.jsp").forward(request, response);

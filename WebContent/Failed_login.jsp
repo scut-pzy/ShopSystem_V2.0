@@ -1,16 +1,16 @@
-<%@ page language="java" contentType="text/html; charset=GB18030"
-    pageEncoding="GB18030"%>
+<%@ page language="java" contentType="text/html; charset=utf-8"
+    pageEncoding="utf-8"%>
  <% response.setHeader("refresh","1;URL=/ShopSystem/Login.jsp"); %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="GB18030">
-<title>登陆失败</title>
+<title>鐧婚檰澶辫触</title>
 </head>
 <body>
-<p>用户名或者密码错误！将于一秒后返回登录页面</p>
+<p>鐢ㄦ埛鍚嶆垨鑰呭瘑鐮侀敊璇紒灏嗕簬涓�绉掑悗杩斿洖鐧诲綍椤甸潰</p>
 <form action="${pageContext.request.contextPath}/Login.jsp">
-    <input type="submit" value="返回"></input>
+    <input type="submit" value="杩斿洖"></input>
 </form>
 </body>
 </html>

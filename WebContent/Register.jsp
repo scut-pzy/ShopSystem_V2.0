@@ -16,11 +16,11 @@
             <div class="col-md-4 col-md-offset-4">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
-                        <span class="glyphicon glyphicon-user"></span>登录
+                        <span class="glyphicon glyphicon-user"></span>注册
                     </div>
                     <div class="panel-body">
                     
-                        <form method="post" action="${pageContext.request.contextPath }/RegisterServlet" name="RegisterForm" onSubmit="return login(this);">
+                        <form method="post" action="${pageContext.request.contextPath }/RegisterServlet?cancer=user" name="RegisterForm" onSubmit="return login(this);">
                             <div class="form-group">
                                 <label for="name">用户名</label> 
                                 <input type="text"

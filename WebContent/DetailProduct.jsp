@@ -19,12 +19,13 @@
     detail=(ProductBean)request.getAttribute("detail");
     System.out.print(detail);
     request.setAttribute("list", detail);
+    String sid=request.getSession().getAttribute("sid").toString();
 %>   
 <c:if   test="${not empty  detail }">
 
 <p>商品ID:<%=detail.getId() %></p>
 
-<form action="${pageContext.request.contextPath }/UpdateProductServlet?type=update&id=<%=detail.getId()  %> " method=post>
+<form action="${pageContext.request.contextPath }/UpdateProductServlet?type=update&nowid=<%=detail.getId()  %>&&sid=<%=sid %> " method=post>
 <p>分类:<%=detail.getCatelog()%>
 
     
@@ -53,11 +54,18 @@
 </p>
 <p>描述:<%=detail.getDes() %></p>
 <input type="text" name="des"  placeholder="请输入新描述">
+<p>状态:<%=detail.getStatue() %></p>
+<input list="c2"  name="statue"  editable="false" placeholder="请输入商品状态"/>
+  <datalist id="c2">
+  <option value="sell">
+  <option value="off">
+
+  </datalist>
 <p><input type="submit"  value="提交修改"></p>
 </form>
 </c:if>
 <!-- <p>/Shop/ProductList.jsp?begin=${sessionScope.page_current  }</p> -->
-<form action="${pageContext.request.contextPath }/proServlet" method="post">
+<form action="${pageContext.request.contextPath }/proServlet?sid=<%=sid%>" method="post">
 <input type="submit" value="返回主页">
 </form>
 </body>

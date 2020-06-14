@@ -11,12 +11,12 @@ list=dao.findBuy();
 Map<String, Integer> map = new HashMap<String,Integer>(); 
 for(int i=0;i<list.size();i++){
 	int num=1;
-	if(map.get(list.get(i).getName())==null){
-		map.put(list.get(i).getName(), num);
+	if(map.get(list.get(i).getUsername())==null){
+		map.put(list.get(i).getUsername(), num);
 	}
 	else{
-		num=map.get(list.get(i).getName())+1;
-		map.put(list.get(i).getName(), num);
+		num=map.get(list.get(i).getPname())+1;
+		map.put(list.get(i).getUsername(), num);
 	}
 }
 request.setAttribute("statictics", map);

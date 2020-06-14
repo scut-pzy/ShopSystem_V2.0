@@ -2,6 +2,7 @@ package Servlet;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.ParseException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,7 +10,9 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import utils.IpadrUtils;
 import Bean.UserBean;
+import Dao.LogDao;
 import Dao.UserDao;
 import service.loginservice;
 /**
@@ -32,21 +35,25 @@ public class loginServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
+		
+		 String ipadr=IpadrUtils.getRemoteIp(request);
+		 String date=IpadrUtils.getTime();
 		response.setContentType("text/html;charset=utf-8");
 		String username=request.getParameter("username");
 		String password=request.getParameter("password");
 		UserDao userDao=new UserDao();	
 		loginservice lg=new loginservice();
+		LogDao logdao=new LogDao();
 		UserBean user = null;
 		String type=request.getParameter("type");
 		try {
-			if(type==null){
+			if(type.equals("user")){
 				user = lg.login(username, password);		
 				System.out.print(user.getUsername());
 				}	
 			else if(type.equals("manager")) 	{
 				user =userDao.ManagerLogin(username, password);
-				request.getSession().setAttribute("manager", "m");
+				request.getSession().setAttribute("manager", user);
 				Cookie cookie=new Cookie("autologin", username+"#"+password);
 				response.addCookie(cookie);
 				System.out.println(cookie);
@@ -76,6 +83,21 @@ public class loginServlet extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		try {
+			if(type!=null&&user.getUsername()!=null) {
+				logdao.insertLogRecord(user.getUsername(), type, date, ipadr, "login");
+				if(type.equals("manager")) {
+				String autologoutdate=IpadrUtils.getAutoLogoutTime(date);
+				logdao.insertLogRecord(user.getUsername(), type, autologoutdate, ipadr, "logout");
+				}
+		}
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	} catch (ParseException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
 	
 		
 		/*user.setUsername(username);

@@ -25,15 +25,19 @@ if(list!=null){
         <tr>
              <td>用户名</td>
             <td>商品名</td>
+             <td>数量</td>
             <td>价格</td>
             <td>购买时间</td>
+            <td>销售人员id</td>
         </tr>
     <c:forEach items="${userbuy }" var="h">
         <tr>
             <td>${h.username}</td>
-            <td>${h.name }</td>
-            <td>${h.price}</td>
+            <td>${h.pname }</td>
+              <td>${h.pnum}</td>
+            <td>${h.sumprice}</td>
             <td>${h.date}</td>
+            <td>${h.sid}</td>
         </tr>
     </c:forEach>    
     </table>
